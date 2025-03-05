@@ -13,14 +13,14 @@ document.getElementById('submitBtn').addEventListener('click', function() {
         // Step 3: Generate and format output
         let output = '';
         for (const item of structure) {
-            output += `// Stage ${item.stageId} (${item.type})\n`;
+            output += `# Stage ${item.stageId} (${item.type})\n`;
             output += generatePADCode(item.type, item.name, item.expression);
             output += '\n\n';
         }
         
         outputArea.value = output.trim();
     } catch (error) {
-        outputArea.value = '// Error: ' + error.message;
+        outputArea.value = '# Error: ' + error.message;
         console.error(error);
     }
 }); 
