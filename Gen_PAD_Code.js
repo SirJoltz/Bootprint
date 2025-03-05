@@ -7,7 +7,9 @@ function generatePADCode(type, stageName, expression) {
         case 'end':
             return 'EXIT FUNCTION';
         case 'decision':
-            return `IF "${expression}" = True THEN\n    // Decision block\nEND`;
+            // Remove square brackets from expression if they exist
+            const cleanExpression = expression.replace(/[\[\]]/g, '');
+            return `IF "${cleanExpression}" = True THEN\n    // Decision block\nEND`;
         case 'start':
             return 'START FUNCTION';
         default:
