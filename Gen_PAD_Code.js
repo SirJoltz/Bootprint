@@ -46,4 +46,21 @@ function processXMLSequence(structure) {
     }
     
     return output.trim();
+}
+
+function generatePADCode(type, stageName) {
+    if (!type) {
+        return '// Type not provided';
+    }
+    
+    switch (type.toLowerCase()) {
+        case 'end':
+            return 'EXIT FUNCTION';
+        case 'decision':
+            return `IF ${stageName || 'CONDITION'} THEN\n    // Decision block\nEND IF`;
+        case 'start':
+            return 'START FUNCTION';
+        default:
+            return `// Type not supported: ${type}`;
+    }
 } 

@@ -39,27 +39,25 @@ function transformXMLToCode(xmlText) {
 }
 
 // script1.js - XML parsing and structure analysis
-function parseXMLStructure(xmlText) {
+function parseXMLStructure(xmlDoc) {
     try {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        // Get all stage elements
+        const stages = xmlDoc.getElementsByTagName('stage');
         
-        // Get all elements with both type and stageId attributes
-        const elements = xmlDoc.querySelectorAll('[type][stageId]');
-        
-        if (elements.length > 0) {
-            // Create array of objects with type and stageId
-            const structure = Array.from(elements).map(element => ({
-                type: element.getAttribute('type'),
-                stageId: parseInt(element.getAttribute('stageId')),
-                xml: element.outerHTML // Store the XML for this element
-            }));
-            
-            // Sort by stageId
-            return structure.sort((a, b) => a.stageId - b.stageId);
+        if (stages.length === 0) {
+            throw new Error('No stage elements found');
         }
-        return [];
+
+        // Create array of objects with type and stageId
+        const structure = Array.from(stages).map(stage => ({
+            type: stage.getAttribute('type') || '',
+            stageId: stage.getAttribute('stageid') || '',
+            name: stage.getAttribute('name') || '',
+            xml: stage.outerHTML
+        }));
+
+        return structure;
     } catch (error) {
-        throw new Error('Invalid XML format');
+        throw new Error('XML parsing failed: ' + error.message);
     }
 } 

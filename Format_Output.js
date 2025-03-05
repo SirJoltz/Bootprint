@@ -4,25 +4,23 @@ document.getElementById('submitBtn').addEventListener('click', function() {
     const outputArea = document.getElementById('outputArea');
     
     try {
-        // Get the structured array of XML elements
-        const structure = parseXMLStructure(xmlText);
+        // Step 1: Validate XML
+        const xmlDoc = validateXMLInput(xmlText);
         
-        if (structure.length > 0) {
-            // Show found types and stageIds in alert
-            const summary = structure
-                .map(item => `Stage ${item.stageId}: ${item.type}`)
-                .join('\n');
-            alert('Found elements:\n' + summary);
-            
-            // Transform and show generated code
-            const generatedCode = processXMLSequence(structure);
-            outputArea.value = generatedCode;
-        } else {
-            alert('No elements with both type and stageId attributes found');
-            outputArea.value = '// No valid elements found';
+        // Step 2: Parse XML structure
+        const structure = parseXMLStructure(xmlDoc);
+        
+        // Step 3: Generate and format output
+        let output = '';
+        for (const item of structure) {
+            output += `// Stage ${item.stageId} (${item.type})\n`;
+            output += generatePADCode(item.type, item.name);
+            output += '\n\n';
         }
+        
+        outputArea.value = output.trim();
     } catch (error) {
-        alert(error.message);
         outputArea.value = '// Error: ' + error.message;
+        console.error(error);
     }
 }); 
