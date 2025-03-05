@@ -7,11 +7,11 @@ function generatePADCode(type, stageName, expression) {
         case 'end':
             return 'EXIT FUNCTION';
         case 'decision':
-            // Remove square brackets and quotes from expression if they exist
+            // Debug alerts to show expression transformation
+            alert('Original expression: ' + expression);
             const cleanExpression = expression.replace(/[\[\]"']/g, '');
+            alert('Cleaned expression: ' + cleanExpression);
             return `IF ${cleanExpression} = True THEN\n    // Decision block\nEND`;
-        case 'start':
-            return 'START FUNCTION';
         default:
             return `// Type not supported: ${type}`;
     }
