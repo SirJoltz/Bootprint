@@ -14,7 +14,7 @@ document.getElementById('submitBtn').addEventListener('click', function() {
         let output = '';
         for (const item of structure) {
             output += `// Stage ${item.stageId} (${item.type})\n`;
-            output += generatePADCode(item.type, item.name);
+            output += generatePADCode(item.type, item.name, item.expression);
             output += '\n\n';
         }
         

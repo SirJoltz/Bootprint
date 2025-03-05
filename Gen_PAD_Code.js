@@ -48,7 +48,7 @@ function processXMLSequence(structure) {
     return output.trim();
 }
 
-function generatePADCode(type, stageName) {
+function generatePADCode(type, stageName, expression) {
     if (!type) {
         return '// Type not provided';
     }
@@ -57,7 +57,7 @@ function generatePADCode(type, stageName) {
         case 'end':
             return 'EXIT FUNCTION';
         case 'decision':
-            return `IF ${stageName || 'CONDITION'} THEN\n    // Decision block\nEND IF`;
+            return `IF "${expression}" = True THEN\n    // Decision block\nEND`;
         case 'start':
             return 'START FUNCTION';
         default:

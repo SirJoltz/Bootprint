@@ -48,11 +48,12 @@ function parseXMLStructure(xmlDoc) {
             throw new Error('No stage elements found');
         }
 
-        // Create array of objects with type and stageId
+        // Create array of objects with type, stageId, and decision expression
         const structure = Array.from(stages).map(stage => ({
             type: stage.getAttribute('type') || '',
             stageId: stage.getAttribute('stageid') || '',
             name: stage.getAttribute('name') || '',
+            expression: stage.querySelector('decision')?.getAttribute('expression') || '',
             xml: stage.outerHTML
         }));
 
