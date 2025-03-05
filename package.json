@@ -1,0 +1,10 @@
+{
+  "name": "my-js-project",
+  "version": "1.0.0",
+  "description": "A simple JavaScript template",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "type": "module"
+}
