@@ -1,28 +1,25 @@
 // public/script.js
 document.getElementById('submitBtn').addEventListener('click', function() {
     const xmlText = document.getElementById('textArea').value;
-    const resultDiv = document.getElementById('result');
     
     try {
         // Parse the XML string
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
         
-        // Get the root element
-        const rootElement = xmlDoc.documentElement;
+        // Get all elements with a type attribute
+        const elementsWithType = xmlDoc.querySelectorAll('[type]');
         
-        // Get the type attribute
-        const type = rootElement.getAttribute('type');
-        
-        if (type) {
-            resultDiv.textContent = `Type: ${type}`;
-            resultDiv.style.color = 'green';
+        if (elementsWithType.length > 0) {
+            // Collect all types
+            const types = Array.from(elementsWithType).map(element => element.getAttribute('type'));
+            
+            // Show types in alert box
+            alert('Found types:\n' + types.join('\n'));
         } else {
-            resultDiv.textContent = 'No type attribute found in the XML';
-            resultDiv.style.color = 'orange';
+            alert('No type attributes found in the XML');
         }
     } catch (error) {
-        resultDiv.textContent = 'Invalid XML format';
-        resultDiv.style.color = 'red';
+        alert('Invalid XML format');
     }
 });
