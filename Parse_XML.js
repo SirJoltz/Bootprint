@@ -14,8 +14,16 @@ function parseXMLStructure(xmlDoc) {
             stageId: stage.getAttribute('stageid') || '',
             name: stage.getAttribute('name') || '',
             expression: stage.querySelector('decision')?.getAttribute('expression') || '',
+            onTrue: stage.querySelector('ontrue')?.textContent || '',
             xml: stage.outerHTML
         }));
+
+        // Add reference to next stage object
+        structure.forEach(stage => {
+            if (stage.onTrue) {
+                stage.nextStage = structure.find(s => s.stageId === stage.onTrue);
+            }
+        });
 
         return structure;
     } catch (error) {

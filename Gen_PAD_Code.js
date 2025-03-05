@@ -1,4 +1,4 @@
-function generatePADCode(type, stageName, expression) {
+function generatePADCode(type, stageName, expression, nextStage) {
     if (!type) {
         return '# Type not provided';
     }
@@ -7,11 +7,15 @@ function generatePADCode(type, stageName, expression) {
         case 'end':
             return 'EXIT FUNCTION';
         case 'decision':
-            // Debug alerts to show expression transformation
-            alert('Original expression: ' + expression);
             const cleanExpression = expression.replace(/[\[\]"']/g, '');
-            alert('Cleaned expression: ' + cleanExpression);
-            return `IF ${cleanExpression} = True THEN\n# Decision block\nEND`;
+            let decisionBlock = `IF ${cleanExpression} = True THEN\n`;
+            if (nextStage) {
+                decisionBlock += `    ${generatePADCode(nextStage.type, nextStage.name, nextStage.expression, nextStage.nextStage)}\n`;
+            } else {
+                decisionBlock += '# No next stage found\n';
+            }
+            decisionBlock += 'END';
+            return decisionBlock;
         default:
             return `# Type not supported: ${type}`;
     }
