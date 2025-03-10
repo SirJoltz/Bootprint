@@ -10,7 +10,7 @@ function parseXMLStructure(xmlDoc) {
         }
 
         // Create array of objects with type, stageId, and decision expression
-        const structure = Array.from(stages).map(stage => {
+        let structure = Array.from(stages).map(stage => {
             console.log('Processing stage:', stage);
             const stageObj = {
                 type: stage.getAttribute('type') || '',
@@ -19,22 +19,40 @@ function parseXMLStructure(xmlDoc) {
                 expression: stage.querySelector('decision')?.getAttribute('expression') || '',
                 onTrue: stage.querySelector('ontrue')?.textContent || '',
                 onFalse: stage.querySelector('onfalse')?.textContent || '',
+                onsuccess: stage.querySelector('onsuccess')?.textContent || '',
                 xml: stage.outerHTML
             };
+            
+            // Extract action information for action type stages
+            if (stageObj.type.toLowerCase() === 'action') {
+                const resource = stage.querySelector('resource');
+                if (resource) {
+                    stageObj.actionObject = resource.getAttribute('object') || '';
+                    stageObj.actionName = resource.getAttribute('action') || '';
+                }
+            }
+            
             console.log('Stage details:', {
                 type: stageObj.type,
                 name: stageObj.name,
                 stageId: stageObj.stageId,
                 expression: stageObj.expression,
                 onTrue: stageObj.onTrue,
-                onFalse: stageObj.onFalse
+                onFalse: stageObj.onFalse,
+                onsuccess: stageObj.onsuccess,
+                actionObject: stageObj.actionObject,
+                actionName: stageObj.actionName
             });
             return stageObj;
         });
 
+        // Reverse the order of the stages
+        structure = structure.reverse();
+        console.log('Structure after reversing:', structure);
+
         console.log('Final structure before linking:', structure);
 
-        // Add reference to next stage object for both true and false paths
+        // Add reference to next stage object for all paths
         structure.forEach(stage => {
             if (stage.onTrue) {
                 stage.nextStageTrue = structure.find(s => s.stageId === stage.onTrue);
@@ -50,6 +68,14 @@ function parseXMLStructure(xmlDoc) {
                     currentStage: stage.stageId,
                     nextStageId: stage.onFalse,
                     nextStageFound: !!stage.nextStageFalse
+                });
+            }
+            if (stage.onsuccess) {
+                stage.nextStageSuccess = structure.find(s => s.stageId === stage.onsuccess);
+                console.log(`Linking stage ${stage.stageId} to next success stage:`, {
+                    currentStage: stage.stageId,
+                    nextStageId: stage.onsuccess,
+                    nextStageFound: !!stage.nextStageSuccess
                 });
             }
         });

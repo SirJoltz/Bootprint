@@ -12,10 +12,29 @@ document.getElementById('submitBtn').addEventListener('click', function() {
         
         // Step 3: Generate and format output
         let output = '';
-        for (const item of structure) {
-            output += `# Stage ${item.stageId} Name ${item.name} (${item.type})\n`;
-            output += generatePADCode(item.type, item.name, item.expression);
-            output += '\n\n';
+        
+        // Find the starting stage (one that has no incoming connections)
+        const startStage = structure.find(stage => 
+            !structure.some(s => 
+                s.onTrue === stage.stageId || 
+                s.onFalse === stage.stageId || 
+                (s.type.toLowerCase() === 'anchor' && s.onsuccess === stage.stageId)
+            )
+        );
+
+        if (startStage) {
+            output += generatePADCode(
+                startStage.type, 
+                startStage.name, 
+                startStage.expression,
+                startStage.nextStageTrue,
+                startStage.nextStageFalse,
+                startStage.nextStageSuccess,
+                startStage.actionObject,
+                startStage.actionName
+            );
+        } else {
+            output += '# Error: Could not find starting stage';
         }
         
         outputArea.value = output.trim();

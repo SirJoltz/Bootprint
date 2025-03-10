@@ -7,22 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-container">
-        <div class="input-container">
-            <h1>Paste Your XML</h1>
-            <textarea id="textArea" rows="10" cols="50" placeholder="Paste your XML here..."></textarea>
-            <button id="submitBtn">Extract Type</button>
-            <div id="result" class="result"></div>
+    <div class="page-container">
+        <div class="main-container">
+            <div class="input-container">
+                <h1>Paste Your XML</h1>
+                <textarea id="textArea" rows="10" cols="50" placeholder="Paste your XML here..."></textarea>
+                <button id="submitBtn">Extract Type</button>
+                <div id="result" class="result"></div>
+            </div>
+            <div class="output-container">
+                <h2>Generated Code</h2>
+                <textarea id="outputArea" rows="10" cols="50" readonly></textarea>
+            </div>
         </div>
-        <div class="output-container">
-            <h2>Generated Code</h2>
-            <textarea id="outputArea" rows="10" cols="50" readonly></textarea>
+        <div class="console-container">
+            <h2>Debug Console</h2>
+            <div id="consoleOutput" class="console-output"></div>
+            <button id="clearConsole">Clear Console</button>
         </div>
+        <div class="version">v1.0.19 (10/03/2025)</div>
     </div>
-    <div class="version">v1.0.18 (10/03/2025)</div>
+    <script src="console-handler.js"></script>
     <script src="Validate_XML_Input.js"></script>
     <script src="Parse_XML.js"></script>
     <script src="Gen_PAD_Code.js"></script>
     <script src="Structure_Output.js"></script>
+    <script src="clipboard.js"></script>
 </body>
 </html>

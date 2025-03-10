@@ -6,12 +6,22 @@ body {
   min-height: 100vh;
 }
 
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 40px; /* Space for version number */
+}
+
 .main-container {
   display: flex;
   padding: 20px;
   gap: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input-container, .output-container {
@@ -57,7 +67,7 @@ button:hover {
 }
 
 .version {
-  position: fixed;
+  position: absolute;
   bottom: 10px;
   right: 10px;
   font-size: 12px;
@@ -68,4 +78,87 @@ button:hover {
 h1, h2 {
   margin-top: 0;
   color: #333;
+}
+
+.console-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.console-container h2 {
+  margin-bottom: 10px;
+}
+
+.console-output {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  font-family: 'Consolas', monospace;
+  padding: 10px;
+  border-radius: 4px;
+  height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.console-entry {
+  margin: 4px 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.console-timestamp {
+  color: #888;
+  margin-right: 8px;
+}
+
+.console-error {
+  color: #ff6b6b;
+}
+
+.console-warn {
+  color: #ffd93d;
+}
+
+.console-info {
+  color: #4dabf7;
+}
+
+#clearConsole {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#clearConsole:hover {
+  background-color: #555;
+}
+
+.copy-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.copy-button:hover {
+    background-color: #0056b3;
+}
+
+.copy-button.copy-error {
+    background-color: #dc3545;
+}
+
+.copy-button.copied {
+    background-color: #28a745;
 }
